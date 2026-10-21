@@ -645,7 +645,7 @@ with ml_tab:
         max_depth=15,
         min_samples_split=4,
         min_samples_leaf=2,
-        class_weight="balanced_subsample",
+        class_weight=None,
         random_state=42,
         n_jobs=-1
    )
