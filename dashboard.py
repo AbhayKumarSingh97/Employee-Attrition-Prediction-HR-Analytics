@@ -843,15 +843,15 @@ with ml_tab:
         "### 🔍 Feature Importance"
     )
 
-    importance_df = pd.DataFrame(
-        {
-            "Feature": features,
-            "Importance": model.feature_importances_
-        }
-    ).sort_values(
+   
+    importance_df = pd.DataFrame({
+        "Feature": X_train.columns,
+        "Importance": model.feature_importances_
+    }).sort_values(
         "Importance",
         ascending=False
     )
+
 
     st.dataframe(
         importance_df.round(4),
