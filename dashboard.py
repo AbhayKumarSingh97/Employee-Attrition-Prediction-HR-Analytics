@@ -636,11 +636,17 @@ with ml_tab:
     # --------------------------------------------------------
     # MODEL
     # --------------------------------------------------------
+   
     model = RandomForestClassifier(
-       n_estimators=150,
-       class_weight="balanced",
-       random_state=42
+      n_estimators=300,
+      max_depth=12,
+      min_samples_split=5,
+      min_samples_leaf=2,
+      class_weight="balanced_subsample",
+      random_state=42,
+      n_jobs=-1
     )
+
 
     model.fit(
         X_train,
