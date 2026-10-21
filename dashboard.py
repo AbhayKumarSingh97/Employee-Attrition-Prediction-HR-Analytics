@@ -785,7 +785,7 @@ with ml_tab:
           dtype=int
        )
 
-       input_data = input_data.reindex(
+        input_data = input_data.reindex(
          columns=X_train.columns,
          fill_value=0
       )
