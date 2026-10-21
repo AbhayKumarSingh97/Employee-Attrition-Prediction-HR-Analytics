@@ -651,7 +651,7 @@ with ml_tab:
     # MODEL PREDICTION
     # --------------------------------------------------------
 
-   threshold = 0.35
+    threshold = 0.35
 
    y_prob = model.predict_proba(X_test)[:, 1]
    y_pred = (y_prob >= threshold).astype(int)
