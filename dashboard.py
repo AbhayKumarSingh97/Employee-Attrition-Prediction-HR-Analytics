@@ -639,27 +639,27 @@ with ml_tab:
     # --------------------------------------------------------
    
     
-param_grid = {
-    "n_estimators": [200, 300, 500],
-    "max_depth": [10, 12, 15, 20],
-    "min_samples_split": [2, 5, 10],
-    "min_samples_leaf": [1, 2, 4]
-}
+    param_grid = {
+       "n_estimators": [200, 300, 500],
+       "max_depth": [10, 12, 15, 20],
+       "min_samples_split": [2, 5, 10],
+       "min_samples_leaf": [1, 2, 4]
+    }
 
-grid_search = GridSearchCV(
-    RandomForestClassifier(
-        class_weight="balanced_subsample",
-        random_state=42,
+    grid_search = GridSearchCV(
+        RandomForestClassifier(
+           class_weight="balanced_subsample",
+           random_state=42,
+           n_jobs=-1
+        ),
+        param_grid,
+        cv=3,
+        scoring="accuracy",
         n_jobs=-1
-    ),
-    param_grid,
-    cv=3,
-    scoring="accuracy",
-    n_jobs=-1
-)
+    )
 
-grid_search.fit(X_train, y_train)
-model = grid_search.best_estimator_
+    grid_search.fit(X_train, y_train)
+    model = grid_search.best_estimator_
 
     # --------------------------------------------------------
     # MODEL PREDICTION
