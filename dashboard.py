@@ -642,7 +642,7 @@ with ml_tab:
   
     model = RandomForestClassifier(
         n_estimators=300,
-        max_depth=15,
+        max_depth=None,
         min_samples_split=4,
         min_samples_leaf=2,
         max_features="sqrt",
