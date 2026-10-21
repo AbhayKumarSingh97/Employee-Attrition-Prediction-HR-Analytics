@@ -653,8 +653,8 @@ with ml_tab:
 
     threshold = 0.35
 
-   y_prob = model.predict_proba(X_test)[:, 1]
-   y_pred = (y_prob >= threshold).astype(int)
+    y_prob = model.predict_proba(X_test)[:, 1]
+    y_pred = (y_prob >= threshold).astype(int)
 
     accuracy = accuracy_score(
         y_test,
