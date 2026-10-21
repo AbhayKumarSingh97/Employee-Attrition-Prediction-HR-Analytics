@@ -581,6 +581,7 @@ with ml_tab:
         "to estimate employee attrition probability."
     )
 
+  
     # --------------------------------------------------------
     # FEATURES
     # --------------------------------------------------------
@@ -591,36 +592,32 @@ with ml_tab:
         "JobLevel",
         "JobSatisfaction",
         "OverTime",
-        "YearsAtCompany"
+        "YearsAtCompany",
+        "BusinessTravel",
+        "EnvironmentSatisfaction",
+        "WorkLifeBalance",
+        "JobInvolvement",
+        "DistanceFromHome",
+        "YearsWithCurrManager",
+        "YearsInCurrentRole",
+        "StockOptionLevel"
     ]
 
-    ml_df = df[
-        features + ["Attrition"]
-    ].copy()
+    ml_df = df[features + ["Attrition"]].copy()
 
-    # Convert categorical values
-    ml_df["OverTime"] = (
-        ml_df["OverTime"]
-        .map(
-            {
-                "Yes": 1,
-                "No": 0
-            }
-        )
+    # Separate features and target
+    X = ml_df[features].copy()
+    y = ml_df["Attrition"].map({
+        "Yes": 1,
+        "No": 0
+    })
+
+    # Encode categorical feature columns
+    X = pd.get_dummies(
+        X,
+        columns=["OverTime", "BusinessTravel"],
+        dtype=int
     )
-
-    ml_df["Attrition"] = (
-        ml_df["Attrition"]
-        .map(
-            {
-                "Yes": 1,
-                "No": 0
-            }
-        )
-    )
-
-    X = ml_df[features]
-    y = ml_df["Attrition"]
 
     # --------------------------------------------------------
     # TRAIN TEST SPLIT
@@ -637,9 +634,7 @@ with ml_tab:
     # --------------------------------------------------------
     # MODEL
     # --------------------------------------------------------
-   
-    
-  
+
     model = RandomForestClassifier(
         n_estimators=300,
         max_depth=None,
@@ -649,9 +644,10 @@ with ml_tab:
         class_weight="balanced_subsample",
         random_state=42,
         n_jobs=-1
-   )
+    )
 
     model.fit(X_train, y_train)
+
 
     # --------------------------------------------------------
     # MODEL PREDICTION
@@ -765,20 +761,38 @@ with ml_tab:
             else 0
         )
 
-        input_data = pd.DataFrame(
-            [[
-                input_age,
-                input_income,
-                input_job_level,
-                input_satisfaction,
-                overtime_value,
-                input_years
-            ]],
-            columns=features
-        )
+        
+       input_data = pd.DataFrame([{
+           "Age": input_age,
+           "MonthlyIncome": input_income,
+           "JobLevel": input_job_level,
+           "JobSatisfaction": input_satisfaction,
+           "OverTime": input_overtime,
+           "YearsAtCompany": input_years,
+           "BusinessTravel": "Travel_Rarely",
+           "EnvironmentSatisfaction": 3,
+           "WorkLifeBalance": 3,
+           "JobInvolvement": 3,
+           "DistanceFromHome": 5,
+           "YearsWithCurrManager": 3,
+           "YearsInCurrentRole": 3,
+           "StockOptionLevel": 1
+      }])
 
-        probability = model.predict_proba(input_data)[0][1]
-        prediction = int(model.predict(input_data)[0])
+     input_data = pd.get_dummies(
+          input_data,
+          columns=["OverTime", "BusinessTravel"],
+          dtype=int
+    )
+
+    input_data = input_data.reindex(
+         columns=X_train.columns,
+         fill_value=0
+   )
+
+   probability = model.predict_proba(input_data)[0][1]
+   prediction = int(model.predict(input_data)[0])
+
 
         probability_percentage = (
             probability * 100
