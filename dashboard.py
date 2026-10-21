@@ -651,10 +651,10 @@ with ml_tab:
     # MODEL PREDICTION
     # --------------------------------------------------------
 
-    threshold = 0.35
+   
+# MODEL PREDICTION
+    y_pred = model.predict(X_test)
 
-    y_prob = model.predict_proba(X_test)[:, 1]
-    y_pred = (y_prob >= threshold).astype(int)
 
     accuracy = accuracy_score(
         y_test,
@@ -771,11 +771,8 @@ with ml_tab:
             columns=features
         )
 
-        probability = model.predict_proba(
-          input_data
-        )[0][1]
-
-        prediction = int(probability >= threshold)
+        probability = model.predict_proba(input_data)[0][1]
+        prediction = int(model.predict(input_data)[0])
 
         probability_percentage = (
             probability * 100
