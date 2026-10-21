@@ -790,8 +790,8 @@ with ml_tab:
          fill_value=0
       )
 
-       probability = model.predict_proba(input_data)[0][1]
-       prediction = int(model.predict(input_data)[0])
+        probability = model.predict_proba(input_data)[0][1]
+        prediction = int(model.predict(input_data)[0])
 
 
         probability_percentage = (
