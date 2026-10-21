@@ -762,7 +762,7 @@ with ml_tab:
         )
 
         
-       input_data = pd.DataFrame([{
+        input_data = pd.DataFrame([{
            "Age": input_age,
            "MonthlyIncome": input_income,
            "JobLevel": input_job_level,
@@ -777,21 +777,21 @@ with ml_tab:
            "YearsWithCurrManager": 3,
            "YearsInCurrentRole": 3,
            "StockOptionLevel": 1
-      }])
+       }])
 
-     input_data = pd.get_dummies(
+       input_data = pd.get_dummies(
           input_data,
           columns=["OverTime", "BusinessTravel"],
           dtype=int
-    )
+       )
 
-    input_data = input_data.reindex(
+       input_data = input_data.reindex(
          columns=X_train.columns,
          fill_value=0
-   )
+      )
 
-   probability = model.predict_proba(input_data)[0][1]
-   prediction = int(model.predict(input_data)[0])
+      probability = model.predict_proba(input_data)[0][1]
+      prediction = int(model.predict(input_data)[0])
 
 
         probability_percentage = (
